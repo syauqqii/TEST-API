@@ -6,4 +6,4 @@ Program ini digunakan untuk alternatif lain dari applikasi POSTMAN, tidak direko
 2. curl
 
 # Screenshot Program
-<img src="test-api.png">
+<img src="https://github.com/syauqqii/TEST-API/blob/main/test-api.png">
