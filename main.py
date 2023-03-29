@@ -1,6 +1,14 @@
 from os import system, path, name
 from re import compile, match, IGNORECASE
 from json import dumps, loads
+try:
+    from colorama import Fore, Back, Style
+except ModuleNotFoundError:
+    system("pip install colorama")
+    try:
+        from colorama import Fore, Back, init
+    except ImportError:
+        exit(0)
 
 if name == "posix":
     try:
@@ -41,11 +49,12 @@ def isURL(string):
     return match(regex, string) is not None
 
 def falseURL():
-    print("\n  {")
-    print("    \"status\" : \"error\",")
-    print("    \"message\": \"yang anda inputkan bukanlah URL yang valid!\"")
-    print("  }")
-    print("\n\n [!] tekan apa saja untuk keluar!", end='')
+    print("\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
+    print("  |  {")
+    print("  |    \"status\" : \"" + Fore.RED + Style.BRIGHT + "error" + Style.RESET_ALL + "\",")
+    print("  |    \"message\": \"" + Fore.CYAN + Style.BRIGHT + "yang anda inputkan bukanlah URL yang valid!" + Style.RESET_ALL + "\"")
+    print("  |  }")
+    print("  |\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL  + " tekan apa saja untuk " + Fore.YELLOW + "keluar" + Style.RESET_ALL + "!", end='')
     input("")
     exit(0)
 
@@ -59,7 +68,7 @@ def readFileName(filename):
 
 def banner():
    # Design: https://patorjk.com/software/taag/#p=display&f=Big%20Money-nw&t=
-    print("""\n     $$$$$$$$\\ $$$$$$$$\\  $$$$$$\\ $$$$$$$$\\       $$$$$$\\  $$$$$$$\\ $$$$$$\\
+    print(Fore.CYAN + """\n     $$$$$$$$\\ $$$$$$$$\\  $$$$$$\\ $$$$$$$$\\       $$$$$$\\  $$$$$$$\\ $$$$$$\\
      \\__$$  __|$$  _____|$$  __$$\\\\__$$  __|     $$  __$$\ $$  __$$\\\\_$$  _|
         $$ |   $$ |      $$ /  \__|  $$ |        $$ /  $$ |$$ |  $$ | $$ |
         $$ |   $$$$$\    \\$$$$$$\\    $$ |$$$$$$\\ $$$$$$$$ |$$$$$$$  | $$ |
@@ -67,18 +76,18 @@ def banner():
         $$ |   $$ |      $$\\   $$ |  $$ |        $$ |  $$ |$$ |       $$ |
         $$ |   $$$$$$$$\\ \\$$$$$$  |  $$ |        $$ |  $$ |$$ |     $$$$$$\\
         \\__|   \\________| \\______/   \\__|        \\__|  \\__|\\__|     \\______|
-    \n                    [ IG: @syaauqqii | GP2D-API CLI ]""")
+    \n                     [ """ + Fore.RED + Style.BRIGHT + "IG" + Style.RESET_ALL + ": @syaauqqii | GP2D-API CLI " + Fore.CYAN + "]" + Style.RESET_ALL)
 
 def main():
     filename = "result.json"
     clearScreen()
     banner()
-    print("\n     [#] FORMAT INPUT url:\n         > ex: https://reqres.in/api/users")
-    url  = str(input("\n [>] INPUT url : "))
+    print("\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " FORMAT INPUT url" + Style.RESET_ALL + ":\n  |  " + Fore.CYAN + "> ex" + Style.RESET_ALL + ": https://reqres.in/api/users/2\n  |")
+    url  = str(input("  +--" + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "!" + Style.RESET_ALL + Fore.CYAN + "]"  + Style.RESET_ALL  + " INPUT url : " + Fore.YELLOW + Style.BRIGHT))
     if isURL(url): pass
     else: falseURL()
-    print("\n     [#] HTTP:\n         [1] GET    [3] PUT\n         [2] POST   [4] DELETE\n")
-    http = int(input(" [>] INPUT http: (1..4) "))
+    print("\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " HTTP request" + Style.RESET_ALL + ":\n  |  " + Fore.CYAN + "> options" + Style.RESET_ALL + ": 1. GET    3. PUT\n  |             2. POST   4. DELETE\n  |")
+    http = int(input("  +--" + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "!" + Style.RESET_ALL + Fore.CYAN + "]"  + Style.RESET_ALL  + " INPUT http: (1..4) " + Fore.YELLOW + Style.BRIGHT))
     print()
 
     if http == 1:
@@ -90,9 +99,19 @@ def main():
     elif http == 4:
         req = "DELETE"
 
+    if http not in [1,2,3,4]:
+        print(" " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
+        print("  |  {")
+        print("  |    \"status\" : \"" + Fore.RED + Style.BRIGHT + "error" + Style.RESET_ALL + "\",")
+        print("  |    \"message\": \"" + Fore.CYAN + Style.BRIGHT + "yang anda inputkan tidak ada di pilihan!" + Style.RESET_ALL + "\"")
+        print("  |  }")
+        print("  |\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL  + " tekan apa saja untuk " + Fore.YELLOW + "keluar" + Style.RESET_ALL + "!", end='')
+        input("")
+        exit(0)
+
     if http in [2, 3]:
-        print("     [#] FORMAT INPUT data:\n         > ex: name=dimas&job=tidur\n")
-        data = input(" [>] INPUT data: ")
+        print(" " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " FORMAT INPUT data" + Style.RESET_ALL + ":\n  |  " + Fore.CYAN + "> ex" + Style.RESET_ALL + ": name=dimas&job=tidur\n  |"+ Style.RESET_ALL)
+        data = input("  +--" + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "?" + Style.RESET_ALL + Fore.CYAN + "]"  + Style.RESET_ALL  + " INPUT data: " + Fore.YELLOW + Style.BRIGHT)
         data_json = dumps(dict([tuple(d.split('=')) for d in data.split('&')]))
         data_query = '&'.join([f"{k}={v}" for k, v in loads(data_json).items()])
         print()
@@ -101,7 +120,7 @@ def main():
     else:
         system(f"curl -s -X {req} \"{url}\" | jq > result.json")
 
-    print(" [#] RESULT:\n")
+    print(" " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
 
     if path.isfile(filename):
         with open(filename, "r") as f:
@@ -109,26 +128,33 @@ def main():
 
         with open(filename, "w") as f:
             for line in lines:
-                f.write('  ' + line)
+                f.write('  |  ' + line)
 
         readFileName(filename)
 
     else:
-        print("Result file is missing")
+        print("\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
+        print("  |  {")
+        print("  |    \"status\" : \"" + Fore.RED + Style.BRIGHT + "error" + Style.RESET_ALL + "\",")
+        print("  |    \"message\": \"" + Fore.CYAN + Style.BRIGHT + f"file {filename} tidak ditemukan!" + Style.RESET_ALL + "\"")
+        print("  |  }")
+        print("  |\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL  + " tekan apa saja untuk " + Fore.YELLOW + "keluar" + Style.RESET_ALL + "!", end='')
+        exit(0)
 
 if __name__ == "__main__":
     try:
         system("title Mini-project: TEST-API @syaauqqii" if name=='nt' else "")
         while True:
              main()
-             print("\n\n [!] tekan [ENTER] / [ESC] untuk keluar!", end='')
-             if getch() in [b'\r', b'\x1b']: print(); break 
+             print("  |\n  +--" + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "!" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL + " tekan " + Fore.RED + Style.BRIGHT + "[ESC]" + Style.RESET_ALL + " untuk " + Fore.YELLOW + Style.BRIGHT + "keluar" + Style.RESET_ALL + "!", end='')
+             if getch() == b'\x1b': print(); break 
     except KeyboardInterrupt:
-        print("\n\n  {")
-        print("    \"status\" : \"success\",")
-        print("    \"message\": \"berhasil exit dengan CTRL + C\"")
-        print("  }")
-        print("\n\n [!] tekan apa saja untuk keluar!", end='')
+        print("\n\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
+        print("  |  {")
+        print("  |    \"status\" : \"" + Fore.GREEN + Style.BRIGHT + "success" + Style.RESET_ALL + "\",")
+        print("  |    \"message\": \"" + Fore.CYAN + Style.BRIGHT + "berhasil exit dengan CTRL + C" + Style.RESET_ALL + "\"")
+        print("  |  }")
+        print("  |\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL  + " tekan apa saja untuk " + Fore.YELLOW + "keluar" + Style.RESET_ALL + "!", end='')
         try:
             input("")
         except KeyboardInterrupt:
