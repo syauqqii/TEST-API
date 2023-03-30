@@ -4,6 +4,7 @@ Program ini digunakan untuk alternatif lain dari aplikasi POSTMAN, jika kalian t
 ## Bahan (Windows)
 1. Download [JQ](https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe) (Klik tulisan jq untuk mendownload jq)
 2. CURL (sudah ada direpository ini)
+
 Jika sudah lengkap, maka tambahkan ke path environment di windows kalian supaya dapat dipanggil melalui CMD,
 dengan cara : Pencet WIN + R lalu ketikkan "sysdm.cpl" tanpa tanda kutip, lalu buka tab Advance -> cek kanan bawah
 klik "Environment Variables" -> pilih Path -> Edit -> New -> Tambahkan lokasi CURL serta JQ anda 😅
