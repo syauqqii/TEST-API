@@ -20,10 +20,19 @@ TODO :
 1. Download [JQ](https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe) (Klik tulisan jq untuk mendownload jq)
 2. CURL (sudah ada direpository ini)
 
-Jika sudah lengkap, maka tambahkan ke path environment di windows kalian supaya dapat dipanggil melalui CMD,
-dengan cara : Tekan
-WIN + R lalu ketikkan "sysdm.cpl" tanpa tanda kutip, lalu buka tab Advance -> cek kanan bawah
-klik "Environment Variables" -> pilih Path -> Edit -> New -> Tambahkan lokasi CURL serta JQ anda 😅
+Jika sudah lengkap downloadnya maka, tambahkan aplilkasi (cURL + jq) ke path environment di windows kalian supaya dapat dipanggil melalui CMD,
+dengan cara:
+- Tekan Win (tombol windows) + R
+- Setelah ditekan akan muncul kotak run di pojok kiri bawah
+- Ketikkan: "sysdm.cpl", ingat tanpa "" (tanda petik)
+- Lalu pergi ke tab "Advance"
+- Lihat kanan bawah dari Tab Advance yang telah terbuka
+- Klik "Environment Variables"
+- Pilih "Path", Lalu tekan Edit
+- Setelah itu akan terbuka dialog baru
+- Klik "NEW", Tambahkan lokasi cURL + jq Anda!
+
+Jika ada yang tidak di mengerti kalian bisa hubungi saya melalui DM IG saya yang ada di profile saya, atau bisa juga email ke 0xd1m5@gmail.com 😅
 
 ## Bahan (Linux)
 Download library getch python dengan pip
