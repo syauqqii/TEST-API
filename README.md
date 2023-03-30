@@ -1,5 +1,5 @@
 # TEST-API
-Program ini digunakan untuk alternatif lain dari applikasi POSTMAN, tidak direkomendasikan digunakan ketika kalian sudah menginstal POSTMAN dikarenakan UI dari CLI yang saya gunakan masih jelek :D, tapi jika ingin terlihat seperti heker maka gunakanlah ini.
+Program ini digunakan untuk alternatif lain dari aplikasi POSTMAN, jika kalian tertarik kalian dapat mencobanya. Dengan menggunakan program ini kalian akan terlihat heker banget 😱😱😱🥶🥶🥵
 
 ### Bahan (Windows)
 1. Download [JQ](https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe) (Klik tulisan jq untuk mendownload jq)
@@ -16,4 +16,4 @@ $ pacman / apt / pkg / install curl & jq
 ```
 
 ### Screenshot Program
-<img src="">
+<img src="proof.png">
