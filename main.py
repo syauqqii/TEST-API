@@ -187,7 +187,6 @@ if __name__ == "__main__":
     try:
         system("title Mini-project: TEST-API @syaauqqii" if name=='nt' else "")
         while True:
-            
             # main program
             main()
             print(f"\n {CYAN}{BRIGHT}[{YELLOW}!{CYAN}] {RESET}tekan {RED}{BRIGHT}[ESC] {RESET}untuk {YELLOW}{BRIGHT}keluar{RESET}!", end='')
