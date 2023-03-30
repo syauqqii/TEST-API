@@ -14,6 +14,7 @@ TODO :
 - [x] Handle Error: Request HTTP cURL output
 - [x] Handle Error: Path file / File tidak ditemukan
 - [ ] Membuat program dapat mengcustom Header (Get, Post, Put, Delete)
+- [x] Menambahkan sedikit UI meskipun sederhana 😅
 
 ## Bahan (Windows)
 1. Download [JQ](https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe) (Klik tulisan jq untuk mendownload jq)
