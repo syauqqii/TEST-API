@@ -17,8 +17,19 @@ TODO :
 - [x] Menambahkan sedikit UI meskipun sederhana 😅
 
 ## Bahan (Windows)
-1. Download [JQ](https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe) (Klik tulisan jq untuk mendownload jq)
-2. CURL (sudah ada direpository ini)
+1. Download [jQ](https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe)
+2. Download [cURL](https://curl.se/windows/)
+
+Atau, jika kalian menggunakan windows package manager seperti [choco](https://chocolatey.org/) kalian dapat mengetikkan :
+Install jQ :
+```
+~$ choco install jq -y
+```
+
+Install cURL :
+```
+~$ choco install curl -y
+```
 
 Jika sudah lengkap downloadnya maka, tambahkan aplilkasi (cURL + jq) ke path environment di windows kalian supaya dapat dipanggil melalui CMD,
 dengan cara:
