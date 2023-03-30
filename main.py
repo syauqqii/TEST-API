@@ -157,9 +157,9 @@ def main():
             return
 
         print()
-        system(f'curl -s -X {req} -d "{data_query}" {url} | jq > {FILENAME}')
+        system(f'curl -s -X {req} -d "{data_query}" {url} | jq > {FILENAME} 2>&1')
     else:
-        system(f"curl -s -X {req} \"{url}\" | jq > {FILENAME}")
+        system(f"curl -s -X {req} \"{url}\" | jq > {FILENAME} 2>&1")
 
     print(f" {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n")
 
