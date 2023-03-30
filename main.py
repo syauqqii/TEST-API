@@ -1,6 +1,11 @@
+# OS: untuk menjalankan beberapa command dan handling beberapa proses
 from os import system, path, name
+# REGULAR EXPRESSION (REGEX): untuk "operasi" string
 from re import compile, match, IGNORECASE
+# JSON: untuk manipulasi data
 from json import dumps, loads
+
+# COLORAMA: untuk mewarnai console
 try:
     from colorama import Fore, Back, Style
 except ModuleNotFoundError:
@@ -10,7 +15,9 @@ except ModuleNotFoundError:
     except ImportError:
         exit(0)
 
+# Import library berdasarkan OS yang dipakai
 if name == "posix":
+    # GETCH: untuk merekam input user [ESC]
     try:
         from getch import getch
     except ModuleNotFoundError:
@@ -20,6 +27,7 @@ if name == "posix":
         except ImportError:
             exit(0)
 elif name == "nt":
+    # GETCH: untuk merekam input user [ESC]
     try:
         from msvcrt import getch
     except ModuleNotFoundError:
@@ -29,6 +37,17 @@ elif name == "nt":
         except ImportError:
             exit(0)
 
+# Variable Global
+RED    = Fore.RED
+GREEN  = Fore.GREEN
+CYAN   = Fore.CYAN
+YELLOW = Fore.YELLOW
+BRIGHT = Style.BRIGHT
+RESET  = Style.RESET_ALL
+
+FILENAME = "result.json"
+
+# Fungsi: untuk membersihkan console berdasarkan OS yang dipakai
 def clearScreen():
     if name == "nt":
         system("cls")
@@ -37,27 +56,28 @@ def clearScreen():
     else:
         return
 
-# Menambahkan validasi input URL
+# Fungsi: Untuk validasi input apakah yang diinputkan berupa URL?
 def isURL(string):
     regex = compile(
-        r'^(?:http|ftp)s?://' # http:// atau https://
+        r'^(?:http|ftp)s?://' # http:// atau https:// atau ftp:// atau ftps://
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' # domain
         r'localhost|' # localhost
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ip
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ip (x.x.x.x) 3 dot
         r'(?::\d+)?' # opsional: port
         r'(?:/?|[/?]\S+)$', IGNORECASE)
     return match(regex, string) is not None
 
+# Fungsi: Untuk handle jika yang diinputkan bukan URL
 def falseURL():
-    print("\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
+    print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
     print("  |  {")
-    print("  |    \"status\" : \"" + Fore.RED + Style.BRIGHT + "error" + Style.RESET_ALL + "\",")
-    print("  |    \"message\": \"" + Fore.CYAN + Style.BRIGHT + "yang anda inputkan bukanlah URL yang valid!" + Style.RESET_ALL + "\"")
+    print(f"  |    \"status\" : \"{RED}{BRIGHT}error{RESET}\",")
+    print(f"  |    \"message\": \"{CYAN}{BRIGHT}yang anda inputkan bukanlah URL yang valid!{RESET}\"")
     print("  |  }")
-    print("  |\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL  + " tekan apa saja untuk " + Fore.YELLOW + "keluar" + Style.RESET_ALL + "!", end='')
-    input("")
-    exit(0)
+    print(f"  |", end='')
+    return True
 
+# Fungsi: Untuk dump / menampilkan data dalam file berdasarkan OS yang dipakai
 def readFileName(filename):
     if name == "nt":
         system(f"type {filename}")
@@ -66,28 +86,40 @@ def readFileName(filename):
     else:
         return
 
+# Fungsi: Untuk menampilkan banner di main program
 def banner():
    # Design: https://patorjk.com/software/taag/#p=display&f=Big%20Money-nw&t=
-    print(Fore.CYAN + """\n     $$$$$$$$\\ $$$$$$$$\\  $$$$$$\\ $$$$$$$$\\       $$$$$$\\  $$$$$$$\\ $$$$$$\\
-     \\__$$  __|$$  _____|$$  __$$\\\\__$$  __|     $$  __$$\ $$  __$$\\\\_$$  _|
-        $$ |   $$ |      $$ /  \__|  $$ |        $$ /  $$ |$$ |  $$ | $$ |
-        $$ |   $$$$$\    \\$$$$$$\\    $$ |$$$$$$\\ $$$$$$$$ |$$$$$$$  | $$ |
-        $$ |   $$  __|    \\____$$\   $$ |\______|$$  __$$ |$$  ____/  $$ |
+    print(f"""{CYAN}\n     $$$$$$$$\\ $$$$$$$$\\  $$$$$$\\ $$$$$$$$\\       $$$$$$\\  $$$$$$$\\ $$$$$$\\
+     \\__$$  __|$$  _____|$$  __$$\\\\__$$  __|     $$  __$$\\ $$  __$$\\\\_$$  _|
+        $$ |   $$ |      $$ /  \\__|  $$ |        $$ /  $$ |$$ |  $$ | $$ |
+        $$ |   $$$$$\\    \\$$$$$$\\    $$ |$$$$$$\\ $$$$$$$$ |$$$$$$$  | $$ |
+        $$ |   $$  __|    \\____$$\\   $$ |\\______|$$  __$$ |$$  ____/  $$ |
         $$ |   $$ |      $$\\   $$ |  $$ |        $$ |  $$ |$$ |       $$ |
         $$ |   $$$$$$$$\\ \\$$$$$$  |  $$ |        $$ |  $$ |$$ |     $$$$$$\\
         \\__|   \\________| \\______/   \\__|        \\__|  \\__|\\__|     \\______|
-    \n                     [ """ + Fore.RED + Style.BRIGHT + "IG" + Style.RESET_ALL + ": @syaauqqii | GP2D-API CLI " + Fore.CYAN + "]" + Style.RESET_ALL)
+    \n                        {RED}{BRIGHT}[ {YELLOW}CONTACT ME{Fore.WHITE}: {GREEN}0xd1m5@gmail.com{RESET}{BRIGHT}{RED} ]{RESET}""")
 
 def main():
-    filename = "result.json"
     clearScreen()
-    banner()
-    print("\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " FORMAT INPUT url" + Style.RESET_ALL + ":\n  |  " + Fore.CYAN + "> ex" + Style.RESET_ALL + ": https://reqres.in/api/users/2\n  |")
-    url  = str(input("  +--" + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "!" + Style.RESET_ALL + Fore.CYAN + "]"  + Style.RESET_ALL  + " INPUT url : " + Fore.YELLOW + Style.BRIGHT))
+    banner()\
+    # INPUT URL ======================================
+    print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}]{GREEN} FORMAT INPUT url{RESET}:\n  |  {CYAN}> ex{RESET}: https://reqres.in/api/users/2\n  |")
+    url  = str(input(f"  +--{CYAN}{BRIGHT}[{YELLOW}?{CYAN}]{RESET} INPUT url : {YELLOW}{BRIGHT}"))
     if isURL(url): pass
-    else: falseURL()
-    print("\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " HTTP request" + Style.RESET_ALL + ":\n  |  " + Fore.CYAN + "> options" + Style.RESET_ALL + ": 1. GET    3. PUT\n  |             2. POST   4. DELETE\n  |")
-    http = int(input("  +--" + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "!" + Style.RESET_ALL + Fore.CYAN + "]"  + Style.RESET_ALL  + " INPUT http: (1..4) " + Fore.YELLOW + Style.BRIGHT))
+    else:
+        if falseURL(): return
+    print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}HTTP request{RESET}:\n  |  {CYAN}> options{RESET}: 1. GET    3. PUT\n  |             2. POST   4. DELETE\n  |")
+    # INPUT HTTP =====================================
+    try:
+        http = int(input(f"  +--{CYAN}{BRIGHT}[{YELLOW}?{CYAN}]{RESET} INPUT http: (1..4) {YELLOW}{BRIGHT}"))
+    except ValueError as e:
+        print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
+        print("  |  {")
+        print(f"  |    \"status\" : \"{RED}{BRIGHT}error{RESET}\",")
+        print(f"  |    \"message\": \"{CYAN}{BRIGHT}yang anda inputkan tidak ada di pilihan!{RESET}\"")
+        print("  |  }")
+        print(f"  |", end='')
+        return
     print()
 
     if http == 1:
@@ -100,61 +132,73 @@ def main():
         req = "DELETE"
 
     if http not in [1,2,3,4]:
-        print(" " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
+        print(f" {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
         print("  |  {")
-        print("  |    \"status\" : \"" + Fore.RED + Style.BRIGHT + "error" + Style.RESET_ALL + "\",")
-        print("  |    \"message\": \"" + Fore.CYAN + Style.BRIGHT + "yang anda inputkan tidak ada di pilihan!" + Style.RESET_ALL + "\"")
+        print(f"  |    \"status\" : \"{RED}{BRIGHT}error{RESET}\",")
+        print(f"  |    \"message\": \"{CYAN}{BRIGHT}yang anda inputkan tidak ada di pilihan!{RESET}\"")
         print("  |  }")
-        print("  |\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL  + " tekan apa saja untuk " + Fore.YELLOW + "keluar" + Style.RESET_ALL + "!", end='')
-        input("")
-        exit(0)
+        print(f"  |", end='')
+        return
 
     if http in [2, 3]:
-        print(" " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " FORMAT INPUT data" + Style.RESET_ALL + ":\n  |  " + Fore.CYAN + "> ex" + Style.RESET_ALL + ": name=dimas&job=tidur\n  |"+ Style.RESET_ALL)
-        data = input("  +--" + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "?" + Style.RESET_ALL + Fore.CYAN + "]"  + Style.RESET_ALL  + " INPUT data: " + Fore.YELLOW + Style.BRIGHT)
-        data_json = dumps(dict([tuple(d.split('=')) for d in data.split('&')]))
-        data_query = '&'.join([f"{k}={v}" for k, v in loads(data_json).items()])
+        print(f" {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}FORMAT INPUT data{RESET}:\n  |  {CYAN}> ex{RESET}: name=dimas&job=tidur\n  |")
+        # INPUT DATA =================================
+        data = input(f"  +--{CYAN}{BRIGHT}[{YELLOW}?{CYAN}]{RESET} INPUT data: {YELLOW}{BRIGHT}")
+        try:
+            data_json = dumps(dict([tuple(d.split('=')) for d in data.split('&')]))
+            data_query = '&'.join([f"{k}={v}" for k, v in loads(data_json).items()])
+        except ValueError as e:
+            print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
+            print("  |  {")
+            print(f"  |    \"status\" : \"{RED}{BRIGHT}error{RESET}\",")
+            print(f"  |    \"message\": \"{CYAN}{BRIGHT}{e}{RESET}\"")
+            print("  |  }")
+            print(f"  |", end='')
+            return
+
         print()
-        cmd = f'curl -s -X {req} -d "{data_query}" {url} | jq > result.json'
-        system(cmd)
+        system(f'curl -s -X {req} -d "{data_query}" {url} | jq > {FILENAME}')
     else:
-        system(f"curl -s -X {req} \"{url}\" | jq > result.json")
+        system(f"curl -s -X {req} \"{url}\" | jq > {FILENAME}")
 
-    print(" " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
+    print(f" {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n")
 
-    if path.isfile(filename):
-        with open(filename, "r") as f:
+    if path.isfile(FILENAME):
+        with open(FILENAME, "r") as f:
             lines = f.readlines()
 
-        with open(filename, "w") as f:
+        with open(FILENAME, "w") as f:
             for line in lines:
-                f.write('  |  ' + line)
+                # f.write('  |  ' + line)
+                f.write('     ' + line)
 
-        readFileName(filename)
+        readFileName(FILENAME)
 
     else:
-        print("\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
+        print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
         print("  |  {")
-        print("  |    \"status\" : \"" + Fore.RED + Style.BRIGHT + "error" + Style.RESET_ALL + "\",")
-        print("  |    \"message\": \"" + Fore.CYAN + Style.BRIGHT + f"file {filename} tidak ditemukan!" + Style.RESET_ALL + "\"")
+        print(f"  |    \"status\" : \"{RED}{BRIGHT}error{RESET}\",")
+        print(f"  |    \"message\": \"{CYAN}{BRIGHT}file {FILENAME} tidak ditemukan!{RESET}\"")
         print("  |  }")
-        print("  |\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL  + " tekan apa saja untuk " + Fore.YELLOW + "keluar" + Style.RESET_ALL + "!", end='')
+        print(f"  |\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {RESET}tekan apa saja untuk {BRIGHT}{YELLOW}keluar{RESET}!", end='')
         exit(0)
 
 if __name__ == "__main__":
     try:
         system("title Mini-project: TEST-API @syaauqqii" if name=='nt' else "")
         while True:
-             main()
-             print("  |\n  +--" + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "!" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL + " tekan " + Fore.RED + Style.BRIGHT + "[ESC]" + Style.RESET_ALL + " untuk " + Fore.YELLOW + Style.BRIGHT + "keluar" + Style.RESET_ALL + "!", end='')
-             if getch() == b'\x1b': print(); break 
+            
+            # main program
+            main()
+            print(f"\n {CYAN}{BRIGHT}[{YELLOW}!{CYAN}] {RESET}tekan {RED}{BRIGHT}[ESC] {RESET}untuk {YELLOW}{BRIGHT}keluar{RESET}!", end='')
+            if getch() == b'\x1b': print(); break # [ESC] -> Keluar
     except KeyboardInterrupt:
-        print("\n\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Fore.GREEN + Style.BRIGHT + " RESULT" + Style.RESET_ALL + ":\n  |")
+        print(f"\n\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
         print("  |  {")
-        print("  |    \"status\" : \"" + Fore.GREEN + Style.BRIGHT + "success" + Style.RESET_ALL + "\",")
-        print("  |    \"message\": \"" + Fore.CYAN + Style.BRIGHT + "berhasil exit dengan CTRL + C" + Style.RESET_ALL + "\"")
+        print(f"  |    \"status\" : \"{GREEN}{BRIGHT}success{RESET}\",")
+        print(f"  |    \"message\": \"{CYAN}{BRIGHT}berhasil exit dengan CTRL + C{RESET}\"")
         print("  |  }")
-        print("  |\n " + Fore.CYAN + "[" + Fore.YELLOW + Style.BRIGHT + "#" + Style.RESET_ALL + Fore.CYAN + "]" + Style.RESET_ALL  + " tekan apa saja untuk " + Fore.YELLOW + "keluar" + Style.RESET_ALL + "!", end='')
+        print(f"  |\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {RESET}tekan apa saja untuk {BRIGHT}{YELLOW}keluar{RESET}!", end='')
         try:
             input("")
         except KeyboardInterrupt:
