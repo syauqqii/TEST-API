@@ -8,7 +8,7 @@ TODO :
 - [x] DELETE
 - [x] Handle Error: Import Library
 - [x] Handle Error: Input URL (Validasi URL)
-- [x] Handle Error: Input http option (POST)
+- [x] Handle Error: Input http option (POST, PUT)
 - [x] Handle Error: CTRL + C (stop program)
 - [x] Handle Error: Input Data (POST)
 - [x] Handle Error: Request HTTP cURL output
