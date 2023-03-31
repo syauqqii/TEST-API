@@ -52,7 +52,7 @@ $ pip install getch
 ```
 Download dan install: CURL + jq dengan package manager kesayangan kalian
 ```
-$ pacman / apt / pkg / install curl & jq
+$ apt / pacman / pkg install curl jq
 ```
 
 ## Screenshot Program
