@@ -10,7 +10,7 @@ TODO :
 - [x] Handle Error: Input URL (Validasi URL)
 - [x] Handle Error: Input http option (POST)
 - [x] Handle Error: CTRL + C (stop program)
-- [ ] Handle Error: Input Data (POST)
+- [x] Handle Error: Input Data (POST)
 - [x] Handle Error: Request HTTP cURL output
 - [x] Handle Error: Path file / File tidak ditemukan
 - [ ] Membuat program dapat mengcustom Header (Get, Post, Put, Delete)
