@@ -23,12 +23,12 @@ TODO :
 Atau, jika kalian menggunakan windows package manager seperti [choco](https://chocolatey.org/) kalian dapat mengetikkan :
 Install jQ :
 ```
-~$ choco install jq -y
+$ choco install jq -y
 ```
 
 Install cURL :
 ```
-~$ choco install curl -y
+$ choco install curl -y
 ```
 
 Jika sudah lengkap downloadnya maka, tambahkan aplilkasi (cURL + jq) ke path environment di windows kalian supaya dapat dipanggil melalui CMD,
