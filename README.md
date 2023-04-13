@@ -1,5 +1,5 @@
 # TEST-API
-Program ini digunakan untuk alternatif lain dari aplikasi POSTMAN, jika kalian tertarik kalian dapat mencobanya. Dengan menggunakan program ini kalian akan terlihat heker banget 😱😱😱🥶🥶🥵
+Program berbasis CLI ini digunakan sebagai alternatif lain dari aplikasi POSTMAN, meskipun penggunaanya masih terbatas, tetapi ini alternatif yang bagus untuk melakukan manipulasi API.
 
 TODO :
 - [x] GET
