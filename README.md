@@ -20,6 +20,7 @@ TODO :
 2. Download [cURL](https://curl.se/windows/)
 
 Atau, jika kalian menggunakan windows package manager seperti [choco](https://chocolatey.org/) kalian dapat mengetikkan :
+<br>
 Install jQ :
 ```
 $ choco install jq -y
