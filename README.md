@@ -24,7 +24,7 @@ Install jQ :
 ```
 $ choco install jq -y
 ```
-
+<br>
 Install cURL :
 ```
 $ choco install curl -y
