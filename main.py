@@ -126,6 +126,7 @@ def main():
         req = "GET"
     elif http == 2:
         req = "POST"
+    # Belum stabil: PUT & DELETE
     elif http == 3:
         req = "PUT"
     elif http == 4:
