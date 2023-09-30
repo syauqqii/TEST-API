@@ -1,74 +1,73 @@
-# OS: untuk menjalankan beberapa command dan handling beberapa proses
-from os import system, path, name
-# REGULAR EXPRESSION (REGEX): untuk "operasi" string
-from re import compile, match, IGNORECASE
-# JSON: untuk manipulasi data
-from json import dumps, loads
+# Import library berdasarkan OS yang dipakai
+import os
+import sys
+import re
+import json
 
 # COLORAMA: untuk mewarnai console
 try:
-    from colorama import Fore, Back, Style
+    from colorama import Fore, Style
 except ModuleNotFoundError:
-    system("pip install colorama")
+    os.system("pip install colorama")
     try:
-        from colorama import Fore, Back, init
+        from colorama import Fore, Style
     except ImportError:
-        exit(0)
+        sys.exit(0)
 
 # Import library berdasarkan OS yang dipakai
-if name == "posix":
+if os.name == "posix":
     # GETCH: untuk merekam input user [ESC]
     try:
         from getch import getch
     except ModuleNotFoundError:
-        system("pip install getch")
+        os.system("pip install getch")
         try:
             from getch import getch
         except ImportError:
-            exit(0)
-elif name == "nt":
+            sys.exit(0)
+elif os.name == "nt":
     # GETCH: untuk merekam input user [ESC]
     try:
         from msvcrt import getch
     except ModuleNotFoundError:
-        system("pip install msvcrt")
+        os.system("pip install msvcrt")
         try:
             from msvcrt import getch
         except ImportError:
-            exit(0)
+            sys.exit(0)
 
 # Variable Global
-RED    = Fore.RED
-GREEN  = Fore.GREEN
-CYAN   = Fore.CYAN
+RED = Fore.RED
+GREEN = Fore.GREEN
+CYAN = Fore.CYAN
 YELLOW = Fore.YELLOW
 BRIGHT = Style.BRIGHT
-RESET  = Style.RESET_ALL
+RESET = Style.RESET_ALL
 
 FILENAME = "result.json"
 
 # Fungsi: untuk membersihkan console berdasarkan OS yang dipakai
-def clearScreen():
-    if name == "nt":
-        system("cls")
-    elif name == "posix":
-        system("clear")
+def clear_screen():
+    if os.name == "nt":
+        os.system("cls")
+    elif os.name == "posix":
+        os.system("clear")
     else:
         return
 
 # Fungsi: Untuk validasi input apakah yang diinputkan berupa URL?
-def isURL(string):
-    regex = compile(
-        r'^(?:http|ftp)s?://' # http:// atau https:// atau ftp:// atau ftps://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' # domain
-        r'localhost|' # localhost
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ip (x.x.x.x) 3 dot
-        r'(?::\d+)?' # opsional: port
-        r'(?:/?|[/?]\S+)$', IGNORECASE)
-    return match(regex, string) is not None
+def is_url(string):
+    regex = re.compile(
+        r'^(?:http|ftp)s?://'  # http:// atau https:// atau ftp:// atau ftps://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain
+        r'localhost|'  # localhost
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ip (x.x.x.x) 3 dot
+        r'(?::\d+)?'  # opsional: port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+    return bool(re.match(regex, string))
 
 # Fungsi: Untuk handle jika yang diinputkan bukan URL
-def falseURL():
+def false_url():
     print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
     print("  |  {")
     print(f"  |    \"status\" : \"{RED}{BRIGHT}error{RESET}\",")
@@ -78,17 +77,17 @@ def falseURL():
     return True
 
 # Fungsi: Untuk dump / menampilkan data dalam file berdasarkan OS yang dipakai
-def readFileName(filename):
-    if name == "nt":
-        system(f"type {filename}")
-    elif name == "posix":
-        system(f"cat {filename}")
+def read_file_name(filename):
+    if os.name == "nt":
+        os.system(f"type {filename}")
+    elif os.name == "posix":
+        os.system(f"cat {filename}")
     else:
         return
 
 # Fungsi: Untuk menampilkan banner di main program
 def banner():
-   # Design: https://patorjk.com/software/taag/#p=display&f=Big%20Money-nw&t=
+    # Design: https://patorjk.com/software/taag/#p=display&f=Big%20Money-nw&t=
     print(f"""{CYAN}\n     $$$$$$$$\\ $$$$$$$$\\  $$$$$$\\ $$$$$$$$\\       $$$$$$\\  $$$$$$$\\ $$$$$$\\
      \\__$$  __|$$  _____|$$  __$$\\\\__$$  __|     $$  __$$\\ $$  __$$\\\\_$$  _|
         $$ |   $$ |      $$ /  \\__|  $$ |        $$ /  $$ |$$ |  $$ | $$ |
@@ -100,14 +99,16 @@ def banner():
     \n                        {RED}{BRIGHT}[ {YELLOW}CONTACT ME{Fore.WHITE}: {GREEN}0xd1m5@gmail.com{RESET}{BRIGHT}{RED} ]{RESET}""")
 
 def main():
-    clearScreen()
-    banner()\
+    clear_screen()
+    banner()
     # INPUT URL ======================================
     print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}]{GREEN} FORMAT INPUT url{RESET}:\n  |  {CYAN}> ex{RESET}: https://reqres.in/api/users/2\n  |")
-    url  = str(input(f"  +--{CYAN}{BRIGHT}[{YELLOW}?{CYAN}]{RESET} INPUT url : {YELLOW}{BRIGHT}"))
-    if isURL(url): pass
+    url = str(input(f"  +--{CYAN}{BRIGHT}[{YELLOW}?{CYAN}]{RESET} INPUT url : {YELLOW}{BRIGHT}"))
+    if is_url(url):
+        pass
     else:
-        if falseURL(): return
+        if false_url():
+            return
     print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}HTTP request{RESET}:\n  |  {CYAN}> options{RESET}: 1. GET    3. PUT\n  |             2. POST   4. DELETE\n  |")
     # INPUT HTTP =====================================
     try:
@@ -132,7 +133,7 @@ def main():
     elif http == 4:
         req = "DELETE"
 
-    if http not in [1,2,3,4]:
+    if http not in [1, 2, 3, 4]:
         print(f" {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
         print("  |  {")
         print(f"  |    \"status\" : \"{RED}{BRIGHT}error{RESET}\",")
@@ -146,8 +147,8 @@ def main():
         # INPUT DATA =================================
         data = input(f"  +--{CYAN}{BRIGHT}[{YELLOW}?{CYAN}]{RESET} INPUT data: {YELLOW}{BRIGHT}")
         try:
-            data_json = dumps(dict([tuple(d.split('=')) for d in data.split('&')]))
-            data_query = '&'.join([f"{k}={v}" for k, v in loads(data_json).items()])
+            data_json = json.dumps(dict([tuple(d.split('=')) for d in data.split('&')]))
+            data_query = '&'.join([f"{k}={v}" for k, v in json.loads(data_json).items()])
         except ValueError as e:
             print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
             print("  |  {")
@@ -158,22 +159,21 @@ def main():
             return
 
         print()
-        system(f'curl -s -X {req} -d "{data_query}" {url} | jq > {FILENAME} 2>&1')
+        os.system(f'curl -s -X {req} -d "{data_query}" {url} | jq > {FILENAME} 2>&1')
     else:
-        system(f"curl -s -X {req} \"{url}\" | jq > {FILENAME} 2>&1")
+        os.system(f"curl -s -X {req} \"{url}\" | jq > {FILENAME} 2>&1")
 
     print(f" {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n")
 
-    if path.isfile(FILENAME):
+    if os.path.isfile(FILENAME):
         with open(FILENAME, "r") as f:
             lines = f.readlines()
 
         with open(FILENAME, "w") as f:
             for line in lines:
-                # f.write('  |  ' + line)
                 f.write('     ' + line)
 
-        readFileName(FILENAME)
+        read_file_name(FILENAME)
 
     else:
         print(f"\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
@@ -182,16 +182,18 @@ def main():
         print(f"  |    \"message\": \"{CYAN}{BRIGHT}file {FILENAME} tidak ditemukan!{RESET}\"")
         print("  |  }")
         print(f"  |\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {RESET}tekan apa saja untuk {BRIGHT}{YELLOW}keluar{RESET}!", end='')
-        exit(0)
+        sys.exit(0)
 
 if __name__ == "__main__":
     try:
-        system("title Mini-project: TEST-API @syaauqqii" if name=='nt' else "")
+        os.system("title Mini-project: TEST-API @syaauqqii" if os.name == 'nt' else "")
         while True:
             # main program
             main()
             print(f"\n {CYAN}{BRIGHT}[{YELLOW}!{CYAN}] {RESET}tekan {RED}{BRIGHT}[ESC] {RESET}untuk {YELLOW}{BRIGHT}keluar{RESET}!", end='')
-            if getch() == b'\x1b': print(); break # [ESC] -> Keluar
+            if getch() == b'\x1b':
+                print()
+                break  # [ESC] -> Keluar
     except KeyboardInterrupt:
         print(f"\n\n {CYAN}{BRIGHT}[{YELLOW}#{CYAN}] {GREEN}RESULT{RESET}:\n  |")
         print("  |  {")
@@ -203,5 +205,5 @@ if __name__ == "__main__":
             input("")
         except KeyboardInterrupt:
             print()
-            exit(0)
-        exit(0)
+            sys.exit(0)
+        sys.exit(0)
